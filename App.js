@@ -1,177 +1,159 @@
-// import React from 'react';
-// import { StyleSheet, Text, View, MaskedViewIOS, Animated } from 'react-native';
+import React, { useContext, useEffect } from 'react'; 
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-// export default class SplashScreen extends React.Component {
-//   state = {
-//       loadingProgress: new Animated.Value(0),
-//       animationDone: false
-//   }
+import Icon from 'react-native-vector-icons/Ionicons';
 
-//   componentDidMount() {
-//       Animated.timing(this.state.loadingProgress, {
-//           toValue: 100,
-//           duration: 1000,
-//           useNativeDriver: true,
-//           delay: 400
-//       }).start(() => {
-//           this.setState({animationDone: true})
-//       })
-//   }
+import SplashScreen from './src/screens/SplashScreen'
+import AccountScreen from './src/screens/AccountScreen'
+import SignInScreen from './src/screens/SignInScreen'
+import SignUpScreen from './src/screens/SignUpScreen';
+import TrackCreateScreen from './src/screens/TrackCreateScreen'
+import TrackDetailScreen from './src/screens/TrackDetailScreen'
+import TrackListScreen from './src/screens/TrackListScreen'
+import LoadingScreen from './src/screens/LoadingScreen'
+import { Provider as AuthProvider, Context as AuthContext } from './src/context/AuthContext'
+import { Provider as LocationProvider } from './src/context/LocationContext'
+import { Provider as TrackProvider } from './src/context/TrackContext'
 
+import { DrawerContent } from './src/screens/DrawerContent'
 
-//   render() {
-//       const colorLayer = this.state.animationDone ? null : (
-//         <View style={[StyleSheet.absoluteFill, { backgroundColor: "#7F23D9" }]} />
-//       );
+const AuthStack = createStackNavigator()
 
-//       const whiteLayer = this.state.animationDone ? null : (
-//          <View style={[StyleSheet.absoluteFill, { backgroundColor: "#FFF" }]} />
-//       );
+const AuthStackScreen = () => (
+  <AuthStack.Navigator screenOptions={{headerShown: false}}>
+    <AuthStack.Screen name="SignIn" component={SignInScreen} />
+    <AuthStack.Screen name="SignUp" component={SignUpScreen} />
+  </AuthStack.Navigator>
+)
 
-//       const imageScale = {
-//           transform: [
-//               {
-//                   scale: this.state.loadingProgress.interpolate({
-//                       inputRange: [0, 15, 100],
-//                       outputRange: [0.1, 0.06, 16]
-//                   })
-//               }
-//           ]
-//       }
+const FirstStack = createStackNavigator()
 
-//       const opacity = {
-//         opacity: this. state.loadingProgress.interpolate({
-//           inputRange: [0, 25, 50],
-//           outputRange: [0, 0, 1],
-//           extrapolate: 'clamp'
-//         })
-//       }
-
-//       return (
-//           <View style={{ flex: 1 }}>
-//               {colorLayer}
-
-//               <MaskedViewIOS
-//                   style={{ flex: 1 }}
-//                   maskElement={
-//                       <View style={styles.centered}>
-//                           <Animated.Image
-//                               source={require("./assets/splash.png")}
-//                               style={[{ width: 1000, imageScale }]}
-//                               resizeMode="contain"
-//                           />
-
-//                       </View>
-//                   }
-//                   >
-//                       {whiteLayer}
-//                       <Animated.View style={[opacity, styles.centered]}>
-//                           <Text>Your app goes Here!</Text>
-//                       </Animated.View>
-
-//                   </MaskedViewIOS>
-//           </View>
-//       )
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   centered: {
-//     flex: 1,
-//     alignItems: "center",
-//     justifyContent: "center"
-//   }
-// })
-
-
-
-
-// import React, { Component } from 'react';
-// import { StyleSheet, View, AppRegistry, Image, ImageBackground, Dimensions, Animated } from 'react-native';
-
-// import { Asset } from 'expo-asset';
-// import { AppLoading } from 'expo';
-// import SplashHelper from './src/components/splash'
-
-// const { width, height } = Dimensions.get('window');
-
-// function cacheImages(images) {
-//     return images.map(image => {
-//         if (typeof image === 'string') {
-//             return Image.prefetch(image);
-//         } else {
-//             return Asset.fromModule(image).downloadAsync();
-//         }
-//     });
-// }
-
-// export default class SplashScreen extends Component {
-
-//     constructor(props){
-//         super(props)
-//         this.state = {
-//             isReady: false,
-//             isLoggedIn : false
-//         }
-//     }
-
-//     async _loadAssetsAsync() {
-//         const imageAssets = cacheImages([require('./assets/rsz_blue_bg.png')]);
-
-//         await Promise.all([...imageAssets]);
-//     }
-
-//     componentDidMount(){
-//         const { navigate } = this.props.navigation;
-        
-//         this.timeoutHandle = setTimeout(()=>{
-//             navigate('Journey', { k: 'v' })
-//         }, 5000);
-        
-//     }
-
-//     goToLogin() {
-//         console.log('pressed');
-//     }
-
-//     render() {
-//         if (!this.state.isReady) {
-//             return (
-//                 <AppLoading
-//                     startAsync={this._loadAssetsAsync}
-//                     onFinish={() => this.setState({ isReady: true })}
-//                     onError={console.warn}
-//                 />
-//             );
-//         }
-//         return <SplashHelper />;
-//     }
-// }
-
-// AppRegistry.registerComponent('SplashScreen');
-
-import { styles } from 'expo-ui-kit';
-import React, { Component } from 'react';
-import {
-AppRegistry, Image, ImageBackground, View
-
-} from 'react-native';
-
-export default class Myproject extends Component {
-render() {
-
-    return (
-        <ImageBackground 
-            source={require('./assets/rsz_blue_bg.png')} 
-            style = {{flex: 1, height: '100%', width: '100%', resizeMode : 'stretch'}}>
-
-        <Image 
-            source={require('./assets/logo_white.png')}
-            style = {{ width: '100%', height:'70%' }}
-        />
-        </ImageBackground>
-        );
+const FirstStackScreen = ({navigation}) => (
+  <FirstStack.Navigator screenOptions={{
+    headerStyle: {
+      backgroundColor: '#009387'
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      // alignSelf: 'center',
     }
+  }}>
+    {/* <FirstStack.Screen name="Splash" component={SplashScreen} /> */}
+    <FirstStack.Screen 
+      name="Journeys" 
+      component={TrackCreateScreen}
+      options={{
+        headerLeft: () => (
+          <Icon.Button 
+          name="ios-menu" 
+          size={25} 
+          backgroundColor="#009387"
+          onPress={() => {navigation.openDrawer()}}></Icon.Button>
+        )
+      }} 
+      />
+  </FirstStack.Navigator>
+)
+
+const TrackListStack = createStackNavigator()
+
+const TrackListScreens = ({navigation}) => (
+  <TrackListStack.Navigator screenOptions={{
+    headerStyle: {
+      backgroundColor: '#009387'
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold'
+    }
+  }}>
+    <TrackListStack.Screen 
+    name="History" 
+    component={TrackListScreen} 
+    options={{
+      headerLeft: () => (
+        <Icon.Button 
+        name="ios-menu" 
+        size={25} 
+        backgroundColor="#009387"
+        onPress={() => {navigation.openDrawer()}}></Icon.Button>
+      )
+    }} 
+    />
+    <TrackListStack.Screen name="Journey Details" component={TrackDetailScreen} />
+  </TrackListStack.Navigator>
+)
+
+const AccountStack = createStackNavigator()
+
+const AccountScreens = ({navigation}) => (
+  <AccountStack.Navigator screenOptions={{
+    headerStyle: {
+      backgroundColor: '#009387'
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold'
+    }
+  }}>
+    <AccountStack.Screen
+    name="Account" 
+    component={AccountScreen} 
+    options={{
+      headerLeft: () => (
+        <Icon.Button 
+        name="ios-menu" 
+        size={25} 
+        backgroundColor="#009387"
+        onPress={() => {navigation.openDrawer()}}></Icon.Button>
+      )
+    }} 
+    />
+
+  </AccountStack.Navigator>
+)
+
+
+const AppStack = createDrawerNavigator()
+
+const AppStackScreen = ({navigation}) => (
+  <AppStack.Navigator drawerContent={props => <DrawerContent {...props}/>}>
+    <AppStack.Screen name="Journey" component={FirstStackScreen} />
+    <AppStack.Screen name="History" component={TrackListScreens} />
+    <AppStack.Screen name="Account" component={AccountScreens} />
+  </AppStack.Navigator>
+)
+
+
+const App = () => {
+  const { state } = useContext(AuthContext)
+
+  if(state.isLoading) {
+    return <LoadingScreen />
+  }
+
+  return (
+    // <NavigationContainer>
+    //   {state.token === null ? (
+    //       <AuthStackScreen />
+    //     ) : (
+    //       <AppStackScreen />
+    //     )
+    //   }
+    // </NavigationContainer>
+    <SplashScreen/>
+  )
 }
 
-AppRegistry.registerComponent('Myproject', () => Myproject);
+export default () => (
+  <AuthProvider>
+    <LocationProvider>
+      <TrackProvider>
+        <App />
+      </TrackProvider>
+    </LocationProvider>
+  </AuthProvider>
+)

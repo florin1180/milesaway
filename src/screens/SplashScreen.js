@@ -1,68 +1,34 @@
-// import React, { Component } from 'react';
-// import { StyleSheet, View, AppRegistry, Image, ImageBackground, Dimensions } from 'react-native';
+import React, { Component } from 'react';
+import {
+AppRegistry, Image, ImageBackground, View
 
-// import { Asset } from 'expo-asset';
-// import { AppLoading } from 'expo';
-// import SplashHelper from '../components/splash'
+} from 'react-native';
 
-// const { width, height } = Dimensions.get('window');
 
-// function cacheImages(images) {
-//     return images.map(image => {
-//         if (typeof image === 'string') {
-//             return Image.prefetch(image);
-//         } else {
-//             return Asset.fromModule(image).downloadAsync();
-//         }
-//     });
-// }
+export default class SplashScreen extends Component {
+    constructor(props){
+        super(props)
+        setTimeout(() => {
+            navigation.navigate("Journeys")
+        }, 5000)
+    }
 
-// export default class SplashScreen extends Component {
+    render() {
 
-//     constructor(props){
-//         super(props)
-//         this.state = {
-//             isReady: false,
-//             isLoggedIn : false
-//         }
-//     }
+        return (
+            <ImageBackground 
+                source={require('../../assets/rsz_blue_bg.png')} 
+                style = {{flex: 1, height: '100%', width: '100%', resizeMode : 'stretch'}}>
 
-//     async _loadAssetsAsync() {
-//         const imageAssets = cacheImages([require('../../assets/rsz_blue_bg.png')]);
-
-//         await Promise.all([...imageAssets]);
-//     }
-
-//     componentDidMount(){
-//         const { navigate } = this.props.navigation;
-        
-//         // do stuff while splash screen is shown
-//         // After having done stuff (such as async tasks) hide the splash screen
-
-//         this.timeoutHandle = setTimeout(()=>{
-//             navigate('Journey', { k: 'v' })
-//         }, 5000);
-        
-//     }
-
-//     goToLogin() {
-//         console.log('pressed');
-//     }
-
-//     render() {
-//         if (!this.state.isReady) {
-//             return (
-//                 <AppLoading
-//                     startAsync={this._loadAssetsAsync}
-//                     onFinish={() => this.setState({ isReady: true })}
-//                     onError={console.warn}
-//                 />
-//             );
-//         }
-//         return <SplashHelper />;
-//     }
-// }
-
-// AppRegistry.registerComponent('SplashScreen');
+            <Image 
+                source={require('../../assets/logo_white.png')}
+                style = {{ width: '100%', height:'70%', marginTop: 100 }}
+            />
+            </ImageBackground>
+            );
+            
+            
+        }   
+}
 
 

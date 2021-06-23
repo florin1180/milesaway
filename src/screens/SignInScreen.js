@@ -5,7 +5,7 @@ import AuthForm from '../components/AuthForm'
 import NavLink from '../components/NavLink'
 
 
-const SignUpScreen = ({ navigation }) => {
+const SignInScreen = ({ navigation }) => {
   const { state, signIn, clearErrorMessage } = useContext(AuthContext)
   
   useEffect(() => {
@@ -35,4 +35,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default SignUpScreen
+export default SignInScreen
