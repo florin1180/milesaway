@@ -5,12 +5,13 @@ AppRegistry, Image, ImageBackground, View
 } from 'react-native';
 
 
+
 export default class SplashScreen extends Component {
     constructor(props){
         super(props)
         setTimeout(() => {
-            navigation.navigate("Journeys")
-        }, 5000)
+            alert("BAU")
+        }, 1000)
     }
 
     render() {
