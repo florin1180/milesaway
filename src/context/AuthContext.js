@@ -46,7 +46,7 @@ const signUp = (dispatch) => async ({ email, password, phone }) => {
 
 const signIn = (dispatch) => async ({ email, password }) => {
   try {
-    const { data } = await trackerApi.post('/signin', { email, password })
+    const { data } = await trackerApi.post('/login', { email, password })
     await AsyncStorage.setItem('token', data.token)
     
     dispatch({ type: 'sign_in', payload: data.token })

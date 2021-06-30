@@ -121,6 +121,7 @@ const AppStack = createDrawerNavigator()
 
 const AppStackScreen = ({navigation}) => (
   <AppStack.Navigator drawerContent={props => <DrawerContent {...props}/>}>
+    <AppStack.Screen name="Splash" component={SplashScreen} />
     <AppStack.Screen name="Journey" component={FirstStackScreen} />
     <AppStack.Screen name="History" component={TrackListScreens} />
     <AppStack.Screen name="Account" component={AccountScreens} />
@@ -136,15 +137,10 @@ const App = () => {
   }
 
   return (
-    // <NavigationContainer>
-    //   {state.token === null ? (
-    //       <AuthStackScreen />
-    //     ) : (
-    //       <AppStackScreen />
-    //     )
-    //   }
-    // </NavigationContainer>
-    <SplashScreen/>
+    <NavigationContainer>
+          {/* <AppStackScreen /> */}
+          <AuthStackScreen/>
+    </NavigationContainer>
   )
 }
 
