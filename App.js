@@ -138,8 +138,8 @@ const App = () => {
 
   return (
     <NavigationContainer>
-          {/* <AppStackScreen /> */}
-          <AuthStackScreen/>
+          <AppStackScreen />
+          {/* <AuthStackScreen/> */}
     </NavigationContainer>
   )
 }
