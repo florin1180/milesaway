@@ -19,14 +19,45 @@ import { Provider as TrackProvider } from './src/context/TrackContext'
 
 import { DrawerContent } from './src/screens/DrawerContent'
 
-const AuthStack = createStackNavigator()
+// const AuthStack = createStackNavigator()
 
-const AuthStackScreen = () => (
-  <AuthStack.Navigator screenOptions={{headerShown: false}}>
-    <AuthStack.Screen name="SignIn" component={SignInScreen} />
-    <AuthStack.Screen name="SignUp" component={SignUpScreen} />
-  </AuthStack.Navigator>
-)
+const Stack = createStackNavigator();
+  
+  const Auth = () => {
+  // Stack Navigator for Login and Sign up Screen
+  return (
+    <Stack.Navigator initialRouteName="LoginScreen">
+      <Stack.Screen
+        name="LoginScreen"
+        component={SignInScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="RegisterScreen"
+        component={SignUpScreen}
+        options={{
+          title: 'Register', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#307ecc', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+
+
+// const AuthStackScreen = () => (
+//   <AuthStack.Navigator screenOptions={{headerShown: false}}>
+//     <AuthStack.Screen name="SignIn" component={SignInScreen} />
+//     <AuthStack.Screen name="SignUp" component={SignUpScreen} />
+//   </AuthStack.Navigator>
+// )
 
 const FirstStack = createStackNavigator()
 
@@ -138,8 +169,9 @@ const App = () => {
 
   return (
     <NavigationContainer>
-          <AppStackScreen />
+          {/* <AppStackScreen /> */}
           {/* <AuthStackScreen/> */}
+          <Auth/>
     </NavigationContainer>
   )
 }
