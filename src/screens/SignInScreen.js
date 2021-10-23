@@ -43,7 +43,7 @@ const LoginScreen = ({navigation}) => {
     }
     formBody = formBody.join('&');
 
-    fetch('https://aboutreact.herokuapp.com/login.php', {
+    fetch('https://mareamea.ro/login.php', {
       method: 'POST',
       body: formBody,
       headers: {
@@ -138,7 +138,7 @@ const LoginScreen = ({navigation}) => {
             <Text
               style={styles.registerTextStyle}
               onPress={() => navigation.navigate('SignUpScreen')}>
-              New Here ? Register
+              Don't have an account? Register here
             </Text>
           </KeyboardAvoidingView>
         </View>

@@ -13,45 +13,54 @@ import {
 
 import Loader from '../components/Loader';
 
-const RegisterScreen = (props) => {
+const SignUpScreen = (props) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [userAge, setUserAge] = useState('');
-  const [userAddress, setUserAddress] = useState('');
+  const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
   const [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
 
-  const nameInputRef = createRef();
-  const emailInputRef = createRef();
-  const ageInputRef = createRef();
-  const addressInputRef = createRef();
+  const firstnameInputRef = createRef();
+  const lastnameInputRef = createRef();
+  const usernameInputRef = createRef();
+  const useremailInputRef = createRef();
+  const userpasswordInputRef = createRef();
+
+
 
   const handleSubmitButton = () => {
     setErrortext('');
+    if (!firstName) {
+      alert('Please fill  First Name');
+      return;
+    }
+    if (!lastName) {
+      alert('Please fill Last Name');
+      return;
+    }
     if (!userName) {
-      alert('Please fill Name');
+      alert('Please fill User Name');
       return;
     }
     if (!userEmail) {
       alert('Please fill Email');
       return;
     }
-    if (!userAge) {
-      alert('Please fill Age');
-      return;
-    }
-    if (!userAddress) {
-      alert('Please fill Address');
+    if (!userPassword) {
+      alert('Please fill Password');
       return;
     }
     //Show Loader
     setLoading(true);
     var dataToSend = {
+      first_name: firstName,
+      last_name: lastName,
       user_name: userName,
-      user_email: userEmail,
-      user_age: userAge,
-      user_address: userAddress,
+      email: userEmail,
+      password: userPassword,
     };
     var formBody = [];
     for (var key in dataToSend) {
@@ -61,20 +70,17 @@ const RegisterScreen = (props) => {
     }
     formBody = formBody.join('&');
 
-    fetch('https://aboutreact.herokuapp.com/register.php', {
+    fetch('https://mareamea.ro/register.php', {
       method: 'POST',
       body: formBody,
       headers: {
-        //Header Defination
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       },
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        //Hide Loader
         setLoading(false);
         console.log(responseJson);
-        // If server response message same as Data Matched
         if (responseJson.status == 1) {
           setIsRegistraionSuccess(true);
           console.log('Registration Successful. Please Login to proceed');
@@ -83,7 +89,6 @@ const RegisterScreen = (props) => {
         }
       })
       .catch((error) => {
-        //Hide Loader
         setLoading(false);
         console.error(error);
       });
@@ -133,14 +138,44 @@ const RegisterScreen = (props) => {
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={(UserName) => setUserName(UserName)}
+              onChangeText={(FirstName) => setFirstName(FirstName)}
               underlineColorAndroid="#f000"
-              placeholder="Enter Name"
+              placeholder="Enter First Name"
               placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
               returnKeyType="next"
               onSubmitEditing={() =>
-                emailInputRef.current && emailInputRef.current.focus()
+                firstnameInputRef.current && firstnameInputRef.current.focus()
+              }
+              blurOnSubmit={false}
+            />
+          </View>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(LastName) => setLastName(LastName)}
+              underlineColorAndroid="#f000"
+              placeholder="Enter Last Name"
+              placeholderTextColor="#8b9cb5"
+              autoCapitalize="sentences"
+              returnKeyType="next"
+              onSubmitEditing={() =>
+                lastnameInputRef.current && lastnameInputRef.current.focus()
+              }
+              blurOnSubmit={false}
+            />
+          </View>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(UserName) => setUserName(UserName)}
+              underlineColorAndroid="#f000"
+              placeholder="Enter User Name"
+              placeholderTextColor="#8b9cb5"
+              autoCapitalize="sentences"
+              returnKeyType="next"
+              onSubmitEditing={() =>
+                usernameInputRef.current && usernameInputRef.current.focus()
               }
               blurOnSubmit={false}
             />
@@ -153,10 +188,10 @@ const RegisterScreen = (props) => {
               placeholder="Enter Email"
               placeholderTextColor="#8b9cb5"
               keyboardType="email-address"
-              ref={emailInputRef}
+              ref={useremailInputRef}
               returnKeyType="next"
               onSubmitEditing={() =>
-                ageInputRef.current && ageInputRef.current.focus()
+                useremailInputRef.current && useremailInputRef.current.focus()
               }
               blurOnSubmit={false}
             />
@@ -164,30 +199,16 @@ const RegisterScreen = (props) => {
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={(UserAge) => setUserAge(UserAge)}
+              onChangeText={(UserPassword) => setUserPassword(UserPassword)}
               underlineColorAndroid="#f000"
-              placeholder="Enter Age"
+              placeholder="Enter Password"
               placeholderTextColor="#8b9cb5"
               keyboardType="numeric"
-              ref={ageInputRef}
+              ref={userpasswordInputRef}
               returnKeyType="next"
               onSubmitEditing={() =>
-                addressInputRef.current && addressInputRef.current.focus()
+                userpasswordInputRef.current && userpasswordInputRef.current.focus()
               }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserAddress) => setUserAddress(UserAddress)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Address"
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              ref={addressInputRef}
-              returnKeyType="next"
-              onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}
             />
           </View>
@@ -205,7 +226,7 @@ const RegisterScreen = (props) => {
     </View>
   );
 };
-export default RegisterScreen;
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
   SectionStyle: {
