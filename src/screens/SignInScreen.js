@@ -16,7 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../components/Loader';
 
 const LoginScreen = ({navigation}) => {
-  const [userEmail, setUserEmail] = useState('');
+  const [userName, setUserName] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
@@ -25,8 +25,8 @@ const LoginScreen = ({navigation}) => {
 
   const handleSubmitPress = () => {
     setErrortext('');
-    if (!userEmail) {
-      alert('Please fill Email');
+    if (!userName) {
+      alert('Please fill Name');
       return;
     }
     if (!userPassword) {
@@ -34,7 +34,7 @@ const LoginScreen = ({navigation}) => {
       return;
     }
     setLoading(true);
-    let dataToSend = {user_email: userEmail, user_password: userPassword};
+    let dataToSend = {user_name: userName, password: userPassword};
     let formBody = [];
     for (let key in dataToSend) {
       let encodedKey = encodeURIComponent(key);
@@ -60,10 +60,10 @@ const LoginScreen = ({navigation}) => {
         if (responseJson.status == 1) {
           AsyncStorage.setItem('user_id', responseJson.data[0].user_id);
           console.log(responseJson.data[0].user_id);
-          navigation.replace('DrawerNavigationRoutes');
+          navigation.replace('TrackCreateScreen');
         } else {
-          setErrortext('Please check your email id or password');
-          console.log('Please check your email id or password');
+          setErrortext('Please check your user id or password');
+          console.log('Please check your user id or password');
         }
       })
       .catch((error) => {
@@ -98,11 +98,10 @@ const LoginScreen = ({navigation}) => {
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
-                onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-                placeholder="Enter Email" //dummy@abc.com
+                onChangeText={(UserName) => setUserName(UserName)}
+                placeholder="Enter User" //dummy@abc.com
                 placeholderTextColor="#8b9cb5"
                 autoCapitalize="none"
-                keyboardType="email-address"
                 returnKeyType="next"
                 onSubmitEditing={() =>
                   passwordInputRef.current && passwordInputRef.current.focus()
