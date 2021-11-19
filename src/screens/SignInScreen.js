@@ -47,19 +47,16 @@ const LoginScreen = ({navigation}) => {
       method: 'POST',
       body: formBody,
       headers: {
-        //Header Definition
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       },
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        //Hide Loader
         setLoading(false);
-        console.log(responseJson);
-        // If server response message same as Data Matched
-        if (responseJson.status == 1) {
-          AsyncStorage.setItem('user_id', responseJson.data[0].user_id);
-          console.log(responseJson.data[0].user_id);
+        console.log(responseJson.process);
+        if (responseJson.process == 'success') {
+          AsyncStorage.setItem('token', responseJson.token);
+          console.log(responseJson.token);
           navigation.replace('TrackCreateScreen');
         } else {
           setErrortext('Please check your user id or password');
@@ -67,7 +64,6 @@ const LoginScreen = ({navigation}) => {
         }
       })
       .catch((error) => {
-        //Hide Loader
         setLoading(false);
         console.error(error);
       });
