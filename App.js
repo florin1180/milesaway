@@ -127,7 +127,7 @@ const AppStackScreen = ({navigation}) => (
     <AppStack.Screen name="Account" component={AccountScreens} />
   </AppStack.Navigator>
 )
-
+// test
 
 const App = () => {
   const { state } = useContext(AuthContext)
