@@ -36,7 +36,7 @@ const FirstStack = createStackNavigator()
 const FirstStackScreen = ({navigation}) => (
   <FirstStack.Navigator screenOptions={{
     headerStyle: {
-      backgroundColor: '#009387'
+      backgroundColor: '#307ecc'
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
@@ -52,7 +52,7 @@ const FirstStackScreen = ({navigation}) => (
           <Icon.Button 
           name="ios-menu" 
           size={25} 
-          backgroundColor="#009387"
+          backgroundColor="#307ecc"
           onPress={() => {navigation.openDrawer()}}></Icon.Button>
         )
       }} 
@@ -65,7 +65,7 @@ const TrackListStack = createStackNavigator()
 const TrackListScreens = ({navigation}) => (
   <TrackListStack.Navigator screenOptions={{
     headerStyle: {
-      backgroundColor: '#009387'
+      backgroundColor: '#307ecc'
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
@@ -80,7 +80,7 @@ const TrackListScreens = ({navigation}) => (
         <Icon.Button 
         name="ios-menu" 
         size={25} 
-        backgroundColor="#009387"
+        backgroundColor="#307ecc"
         onPress={() => {navigation.openDrawer()}}></Icon.Button>
       )
     }} 
@@ -94,7 +94,7 @@ const AccountStack = createStackNavigator()
 const AccountScreens = ({navigation}) => (
   <AccountStack.Navigator screenOptions={{
     headerStyle: {
-      backgroundColor: '#009387'
+      backgroundColor: '#307ecc'
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
@@ -109,7 +109,7 @@ const AccountScreens = ({navigation}) => (
         <Icon.Button 
         name="ios-menu" 
         size={25} 
-        backgroundColor="#009387"
+        backgroundColor="#307ecc"
         onPress={() => {navigation.openDrawer()}}></Icon.Button>
       )
     }} 
