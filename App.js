@@ -26,6 +26,7 @@ const AuthStackScreen = () => (
   <AuthStack.Navigator screenOptions={{headerShown: false}}>
     <AuthStack.Screen name="Splash" component={SplashScreen} />
     <AuthStack.Screen name="SignInScreen" component={SignInScreen} />
+    <AuthStack.Screen name="TrackCreateScreen" component={FirstStackScreen} />
     <AuthStack.Screen name="SignUpScreen" component={SignUpScreen} />
   </AuthStack.Navigator>
 )
@@ -44,7 +45,7 @@ const FirstStackScreen = ({navigation}) => (
     }
   }}>
     <FirstStack.Screen 
-      name="Journeys" 
+      name="TrackCreateScreen" 
       component={TrackCreateScreen}
       options={{
         headerLeft: () => (

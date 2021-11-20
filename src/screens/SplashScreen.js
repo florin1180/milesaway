@@ -11,7 +11,7 @@ const SplashScreen = ({navigation}) => {
       setAnimating(false);
       AsyncStorage.getItem('token').then((value) =>
         // console.log(value),
-        navigation.replace(value === null ? 'Auth' : 'SignInScreen'),
+        navigation.replace(value === null ? 'SignInScreen' : 'SignInScreen'),
       );
     }, 5000);
   }, []);
