@@ -6,7 +6,7 @@ import { Context } from '../context/LocationContext'
 const Map = () => {
   const { state: { currentLocation, locations } } = useContext(Context)
 
-  // console.log(currentLocation);
+  console.log(currentLocation);
 
 
   if(!currentLocation) {

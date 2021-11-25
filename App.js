@@ -45,7 +45,7 @@ const FirstStackScreen = ({navigation}) => (
     }
   }}>
     <FirstStack.Screen 
-      name="TrackCreateScreen" 
+      name="Journeys" 
       component={TrackCreateScreen}
       options={{
         headerLeft: () => (

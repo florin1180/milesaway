@@ -23,19 +23,6 @@ const TrackForm = () => {
   return (
   
     <KeyboardAvoidingView style={ styles.button } behavior="padding">
-      <Spacer>
-        {/* <Input placeholder="Enter name" onChangeText={changeName} value={name} placeholderTextColor="red" /> */}
-        <TextInput value={name} onChangeText={changeName}
-          style={{ borderRadius: 10, textAlign: 'center', backgroundColor: '#a4c3f5', height: 40, width: "100%", borderColor: '#a4c3f5', borderWidth: 5,  marginBottom: 20, color:'white' }}
-          // Adding hint in TextInput using Placeholder option.
-          placeholder="Enter Journey Name Here"
-          // Making the Under line Transparent.
-          underlineColorAndroid="transparent"
-          placeholderTextColor="white"
-          
-          
-        />
-      </Spacer>
         { recording 
           ? <Button title="Stop Journey" onPress={stopRecording} /> 
           : <Button title="New Journey" onPress={startRecording} /> 
@@ -48,7 +35,6 @@ const TrackForm = () => {
         }
       </Spacer>
       </KeyboardAvoidingView>
-  
   )
 }
 
