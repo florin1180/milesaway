@@ -1,5 +1,11 @@
 import createDataContext from './createDataContext';
 
+// import {openDatabase} from 'react-native-sqlite-storage';
+
+// var db = openDatabase({name: 'UserDatabase.db'});
+
+
+
 const locationReducer = (state, action) => {
   switch (action.type) {
     case 'add_current_location':
