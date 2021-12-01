@@ -1,9 +1,6 @@
 import createDataContext from './createDataContext';
-
-// import {openDatabase} from 'react-native-sqlite-storage';
-
-// var db = openDatabase({name: 'UserDatabase.db'});
-
+import React, {useState} from 'react';
+import * as SQLite from 'expo-sqlite'
 
 
 const locationReducer = (state, action) => {

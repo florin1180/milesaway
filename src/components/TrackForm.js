@@ -4,7 +4,6 @@ import Spacer from './Spacer'
 import { Context as LocationContext } from '../context/LocationContext'
 import useSaveTrack from '../hooks/useSaveTrack'
 import { StyleSheet, View, TextInput, KeyboardAvoidingView } from 'react-native';
-import { openDatabase } from 'react-native-sqlite-storage';
 
 
 const TrackForm = () => {
