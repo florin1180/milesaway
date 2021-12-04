@@ -17,17 +17,35 @@ import TrackForm from '../components/TrackForm'
 const db = SQLite.openDatabase('Database.db')
 
 
+
 const TrackCreateScreen = ({ isFocused, navigation }) => {
-  useEffect(() => {
-    db.transaction(tx => {
-      tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS itinerary(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(128) UTF-8 encoded, date_start DEFAULT CURRENT(DATETIME), date_saved DEFAULT NULL(DATETIME))'
-        )
-      tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS itinerary_details(id INTEGER PRIMARY KEY AUTOINCREMENT, itinerary_id INTEGER PRIMARY KEY, latitude DECIMAL(11,7), longitude DECIMAL(11,7), altitude DECIMAL(11,7), date DEFAULT CURRENT(DATETIME), synced(YES/NO) VARCHAR(5))'
-        )
-    })
-  })
+  const init = () => {
+    const promise = new Promise((resolve, reject) => {
+      db.transaction(async (tx) => {
+        await tx.executeSql(
+          'CREATE TABLE IF NOT EXISTS itinerary(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(128), date_start DEFAULT CURRENT(DATETIME), date_saved DEFAULT NULL(DATETIME))',
+          [],
+          () => {
+            resolve();
+          },
+          (_, err) => {
+            reject(err);
+          }
+        );
+        await tx.executeSql(
+          'CREATE TABLE IF NOT EXISTS itinerary_details(id INTEGER PRIMARY KEY AUTOINCREMENT, itinerary_id INTEGER PRIMARY KEY, latitude DECIMAL(11,7), longitude DECIMAL(11,7), altitude DECIMAL(11,7), date DEFAULT CURRENT(DATETIME), synced(YES/NO) VARCHAR(5))',
+          [],
+          () => {
+            resolve();
+          },
+          (_, err) => {
+            reject(err);
+          }
+        );
+      });
+    });
+    return promise;
+  }
   
   const { state: { recording }, addLocation } = useContext(LocationContext)
   const callback = useCallback(location => {

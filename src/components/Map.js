@@ -3,10 +3,14 @@ import { StyleSheet, ActivityIndicator, TouchableWithoutFeedback, Keyboard } fro
 import MapView, { Polyline, Circle } from 'react-native-maps'
 import { Context } from '../context/LocationContext'
 
+
+
 const Map = () => {
   const { state: { currentLocation, locations } } = useContext(Context)
 
   console.log(currentLocation);
+
+
 
 
   if(!currentLocation) {

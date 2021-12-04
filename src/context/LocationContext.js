@@ -30,6 +30,24 @@ const startRecording = dispatch => () => {
   dispatch({ type: 'start_recording' });
 };
 
+const fetchCoords = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction(tx => {
+          tx.executeSql(
+            'SELECT * FROM itinerary_details',
+            [],
+            (_, result) => {
+              resolve(result);
+            },
+            (_, err) => {
+              reject(err);
+            }
+          );
+        });
+      });
+      return promise;
+};
+
 const stopRecording = dispatch => () => {
   dispatch({ type: 'stop_recording' });
 };
