@@ -23,7 +23,55 @@ const TrackForm = () => {
 
   const [saveTrack] = useSaveTrack()
 
-  console.log(currentLocation)
+  // console.log(currentLocation)
+
+  const init = () => {
+  const promise = new Promise((resolve, reject) => {
+    db.transaction(async (tx) => {
+      await tx.executeSql(
+        'CREATE TABLE IF NOT EXISTS itinerary(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(128), date_start DEFAULT CURRENT(DATETIME), date_saved DEFAULT NULL(DATETIME))',
+        [],
+        () => {
+          resolve();
+        },
+        (_, err) => {
+          reject(err);
+        }
+      );
+      await tx.executeSql(
+        'CREATE TABLE IF NOT EXISTS itinerary_details(id INTEGER PRIMARY KEY AUTOINCREMENT, itinerary_id INTEGER PRIMARY KEY, latitude DECIMAL(11,7), longitude DECIMAL(11,7), altitude DECIMAL(11,7), synced(YES/NO) VARCHAR(5), date DEFAULT CURRENT(DATETIME))',
+        [],
+        () => {
+          resolve();
+        },
+        (_, err) => {
+          reject(err);
+        }
+      );
+    });
+  });
+  return promise;
+}
+
+//   const insertDetails = (itinerary_id, latitude, longitude, altitude, synced ) => {
+//     const promise = new Promise((resolve, reject) 
+//         db.transaction(tx => {
+//           tx.executeSql(
+//             'INSERT INTO itinerary_details(itinerary_id, latitude, longitude, altitude, synced) VALUES(?,?,?,?,?)', 
+//             [currentLocation.coords.accuracy, currentLocation.coords.latitude, currentLocation.coords.longitude, currentLocation.coords.altitude, currentLocation.coords.speed]
+//             (_, result) => {
+//               resolve(result);
+//             },
+//             (_, err) => {
+//               reject(err);
+//             }
+//           );
+//         });
+//       });
+//       return promise;
+// };
+
+
 
     // let query = 'INSERT INTO itinerary_details(itinerary_id, latitude, longitude, altitude, synced) VALUES(?,?,?,?,?)', [currentLocation.coords.accuracy, currentLocation.coords.latitude, currentLocation.coords.longitude, currentLocation.coords.altitude, currentLocation.coords.speed]
     // for (let i = 0; i < currentLocation.length; ++i) {
