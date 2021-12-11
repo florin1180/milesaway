@@ -23,7 +23,7 @@ const TrackForm = () => {
 
   const [saveTrack] = useSaveTrack()
 
-  // console.log(currentLocation)
+  console.log(currentLocation)
 
   const init = () => {
   const promise = new Promise((resolve, reject) => {
@@ -35,6 +35,7 @@ const TrackForm = () => {
           resolve();
         },
         (_, err) => {
+          console.log(err)
           reject(err);
         }
       );
@@ -53,12 +54,14 @@ const TrackForm = () => {
   return promise;
 }
 
+
+
 //   const insertDetails = (itinerary_id, latitude, longitude, altitude, synced ) => {
-//     const promise = new Promise((resolve, reject) 
-//         db.transaction(tx => {
-//           tx.executeSql(
-//             'INSERT INTO itinerary_details(itinerary_id, latitude, longitude, altitude, synced) VALUES(?,?,?,?,?)', 
-//             [currentLocation.coords.accuracy, currentLocation.coords.latitude, currentLocation.coords.longitude, currentLocation.coords.altitude, currentLocation.coords.speed]
+//     const promise = new Promise((resolve, reject) => {
+//         db.transaction(async(tx) => {
+//           await tx.executeSql(
+//             `INSERT INTO itinerary_details(itinerary_id, latitude, longitude, altitude, synced) VALUES(?,?,?,?,?);`, 
+//             [currentLocation.coords.accuracy, currentLocation.coords.latitude, currentLocation.coords.longitude, currentLocation.coords.altitude, currentLocation.coords.speed],
 //             (_, result) => {
 //               resolve(result);
 //             },
@@ -68,8 +71,14 @@ const TrackForm = () => {
 //           );
 //         });
 //       });
-//       return promise;
+//     return promise;
 // };
+
+// const dbResult = insertDetails()
+
+// console.log(dbResult)
+
+
 
 
 
