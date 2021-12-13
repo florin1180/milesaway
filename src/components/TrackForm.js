@@ -26,61 +26,45 @@ const TrackForm = () => {
   console.log(currentLocation)
 
   const init = () => {
-  const promise = new Promise((resolve, reject) => {
-    db.transaction(async (tx) => {
-      await tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS itinerary(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(128), date_start DEFAULT CURRENT(DATETIME), date_saved DEFAULT NULL(DATETIME))',
-        [],
-        () => {
-          resolve();
-        },
-        (_, err) => {
-          console.log(err)
-          reject(err);
-        }
-      );
-      await tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS itinerary_details(id INTEGER PRIMARY KEY AUTOINCREMENT, itinerary_id INTEGER PRIMARY KEY, latitude DECIMAL(11,7), longitude DECIMAL(11,7), altitude DECIMAL(11,7), synced(YES/NO) VARCHAR(5), date DEFAULT CURRENT(DATETIME))',
-        [],
-        () => {
-          resolve();
-        },
-        (_, err) => {
-          reject(err);
-        }
-      );
+    const prom = new Promise((resolve, reject) => {
+      db.transaction(async (tx) => {
+        await tx.executeSql(
+          'CREATE TABLE IF NOT EXISTS itinerary(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(128), date_start DEFAULT CURRENT(DATETIME), date_saved DEFAULT NULL(DATETIME))',
+          [],
+          () => {
+            resolve();
+          },
+          (_, err) => {
+            console.log(err)
+            reject(err);
+          }
+        );
+      });
     });
-  });
-  return promise;
-}
-
-
-
-//   const insertDetails = (itinerary_id, latitude, longitude, altitude, synced ) => {
-//     const promise = new Promise((resolve, reject) => {
-//         db.transaction(async(tx) => {
-//           await tx.executeSql(
-//             `INSERT INTO itinerary_details(itinerary_id, latitude, longitude, altitude, synced) VALUES(?,?,?,?,?);`, 
-//             [currentLocation.coords.accuracy, currentLocation.coords.latitude, currentLocation.coords.longitude, currentLocation.coords.altitude, currentLocation.coords.speed],
-//             (_, result) => {
-//               resolve(result);
-//             },
-//             (_, err) => {
-//               reject(err);
-//             }
-//           );
-//         });
-//       });
-//     return promise;
-// };
-
-// const dbResult = insertDetails()
-
-// console.log(dbResult)
+    
+    prom.then(value => { console.log(value) }).catch(err => console.log('There was an error:' + err))
+  }
 
 
 
 
+  const insertDetails = (id, name, date_start, date_saved ) => {
+    const prom = new Promise((resolve, reject) => {
+        db.transaction(async(tx) => {
+          await tx.executeSql(
+            'INSERT INTO itinerary(id, name, date_start, date_saved) VALUES(?,?,?,?);', 
+            [1, "Florin", 13, 14],
+            (_, result) => {
+              resolve(result);
+            },
+            (_, err) => {
+              reject(err);
+            }
+          );
+        });
+      });
+    return prom;
+};
 
     // let query = 'INSERT INTO itinerary_details(itinerary_id, latitude, longitude, altitude, synced) VALUES(?,?,?,?,?)', [currentLocation.coords.accuracy, currentLocation.coords.latitude, currentLocation.coords.longitude, currentLocation.coords.altitude, currentLocation.coords.speed]
     // for (let i = 0; i < currentLocation.length; ++i) {

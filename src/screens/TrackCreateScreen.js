@@ -33,7 +33,7 @@ const TrackCreateScreen = ({ isFocused, navigation }) => {
   //         }
   //       );
   //       await tx.executeSql(
-  //         'CREATE TABLE IF NOT EXISTS itinerary_details(id INTEGER PRIMARY KEY AUTOINCREMENT, itinerary_id INTEGER PRIMARY KEY, latitude DECIMAL(11,7), longitude DECIMAL(11,7), altitude DECIMAL(11,7), synced(YES/NO) VARCHAR(5), date DEFAULT CURRENT(DATETIME))',
+          // 'CREATE TABLE IF NOT EXISTS itinerary_details(id INTEGER PRIMARY KEY AUTOINCREMENT, itinerary_id INTEGER PRIMARY KEY, latitude DECIMAL(11,7), longitude DECIMAL(11,7), altitude DECIMAL(11,7), synced(YES/NO) VARCHAR(5), date DEFAULT CURRENT(DATETIME))',
   //         [],
   //         () => {
   //           resolve();
