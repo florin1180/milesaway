@@ -25,11 +25,12 @@ const TrackForm = () => {
 
   console.log(currentLocation)
 
-  const init = () => {
+  const initItinerary = () => {
     const prom = new Promise((resolve, reject) => {
       db.transaction(async (tx) => {
+        tx.executeSql('DROP TABLE IF EXISTS itinerary', []);
         await tx.executeSql(
-          'CREATE TABLE IF NOT EXISTS itinerary(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(128), date_start DEFAULT CURRENT(DATETIME), date_saved DEFAULT NULL(DATETIME))',
+          'CREATE TABLE IF NOT EXISTS itinerary(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(30), date_start DATETIME DEFAULT CURRENT_DATETIME, date_saved DATETIME DEFAULT SAVED_TIME)',
           [],
           () => {
             resolve();
@@ -40,20 +41,16 @@ const TrackForm = () => {
           }
         );
       });
-    });
-    
+    });  
     prom.then(value => { console.log(value) }).catch(err => console.log('There was an error:' + err))
   }
 
-
-
-
-  const insertDetails = (id, name, date_start, date_saved ) => {
+  const insertItinerary = (id, name, date_start, date_saved) => {
     const prom = new Promise((resolve, reject) => {
         db.transaction(async(tx) => {
           await tx.executeSql(
-            'INSERT INTO itinerary(id, name, date_start, date_saved) VALUES(?,?,?,?);', 
-            [1, "Florin", 13, 14],
+            'INSERT INTO itinerary(id, name, date_start,date_saved) VALUES(?,?,?,?);', 
+            [1, 'Florin', '123', "456"],
             (_, result) => {
               resolve(result);
             },
@@ -66,46 +63,77 @@ const TrackForm = () => {
     return prom;
 };
 
-    // let query = 'INSERT INTO itinerary_details(itinerary_id, latitude, longitude, altitude, synced) VALUES(?,?,?,?,?)', [currentLocation.coords.accuracy, currentLocation.coords.latitude, currentLocation.coords.longitude, currentLocation.coords.altitude, currentLocation.coords.speed]
-    // for (let i = 0; i < currentLocation.length; ++i) {
-    //   query = query + "('"
-    //     + currentLocation[i].id //id
-    //     + "','"
-    //     + currentLocation[i].itinerary_id
-    //     + "','"
-    //     + currentLocation[i].latitude
-    //     + "','"
-    //     + currentLocation[i].longitude
-    //     + "','"
-    //     + currentLocation[i].altitude
-    //     + "','"
-    //     + currentLocation[i].synced
-    //     + "')";
-    //   if (i != currentLocation.length - 1) {
-    //     query = query + ",";
-    //   }
-    // }
-    // query = query + ";";
-    // console.log(query);
+
+  const initDetails = () => {
+    const prom = new Promise((resolve, reject) => {
+      db.transaction(async (tx) => {
+        tx.executeSql('DROP TABLE IF EXISTS itinerary_details', []);
+        await tx.executeSql(
+          'CREATE TABLE IF NOT EXISTS itinerary_details(id INTEGER PRIMARY KEY AUTOINCREMENT, itinerary_id INT(10), latitude TEXT(20), longitude TEXT(20), altitude TEXT(20), synced VARCHAR(10), date TEXT(20))',
+          [],
+          () => {
+            resolve();
+          },
+          (_, err) => {
+            reject(err);
+          }
+        );
+      });
+    });       
+    prom.then(value => { console.log(value) }).catch(err => console.log('There was an error:' + err))
+  }         
 
 
-  return (
-  
-    <KeyboardAvoidingView style={ styles.button } behavior="padding">
-        { recording 
-          ? <Button title="Stop Journey" onPress={stopRecording} /> 
-          : <Button title="New Journey" onPress={startRecording} /> 
+  const insertDetails = (id) => {
+      const prom = new Promise((resolve, reject) => {
+          db.transaction(async(tx) => {
+            await tx.executeSql(
+              'INSERT INTO itinerary_details(id, itinerary_id, latitude, longitude, altitude, synced, date) VALUES(?,?,?,?,?,?,?);', 
+              [2, 3, currentLocation.coords.latitude, currentLocation.coords.longitude, currentLocation.coords.altitude, 'NO', currentLocation.timestamp],
+              (_, result) => {
+                resolve(result);
+              },
+              (_, err) => {
+                reject(err);
+              }
+            );
+          });
+        });
+      return prom;
+  }
+
+  const getData = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM itinerary_details",
+        [],
+        (tx, results) => {
+          var data = [];
+          for (let i = 0; i < results.rows.length; ++i)
+            data.push(results.rows.item(i));
+          console.log(data) 
         }
-      <Spacer>
-        { 
-          !recording && locations.length
-          ? <Button title="Save Journey" onPress={saveTrack}/>
-          : null
-        }
-      </Spacer>
-      </KeyboardAvoidingView>
-  )
-}
+      )
+    })
+  }
+
+    return (
+
+      <KeyboardAvoidingView style={ styles.button } behavior="padding">
+          { recording 
+            ? <Button title="Stop Journey" onPress={stopRecording} /> 
+            : <Button title="New Journey" onPress={() => {startRecording(); initItinerary(); insertItinerary(); initDetails(); insertDetails(); getData()}} /> 
+          }
+        <Spacer>
+          { 
+            !recording && locations.length
+            ? <Button title="Save Journey" onPress={saveTrack}/>
+            : null
+          }
+        </Spacer>
+        </KeyboardAvoidingView>
+    )
+    }
 
 const styles = StyleSheet.create(
   {
