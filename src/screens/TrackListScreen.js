@@ -4,8 +4,11 @@ import { ListItem } from 'react-native-elements'
 import { Context as TrackContext } from '../context/TrackContext'
 
 
+
 import Swipeable from 'react-native-gesture-handler/Swipeable'
 import { MaterialIcons } from '@expo/vector-icons';
+
+
 
 const TrackListScreen = ({navigation}) => {
   const { state, fetchTracks } = useContext(TrackContext)
@@ -26,7 +29,6 @@ const TrackListScreen = ({navigation}) => {
   }
 
 
-    
 
   const rightSwipe = (progress, dragX) => {
     const scale = dragX.interpolate({

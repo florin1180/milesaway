@@ -7,6 +7,8 @@ import { StyleSheet, View, TextInput, KeyboardAvoidingView } from 'react-native'
 import * as SQLite from 'expo-sqlite'
 
 
+
+
 const db = SQLite.openDatabase('Database.db')
 
 
@@ -23,7 +25,7 @@ const TrackForm = () => {
 
   const [saveTrack] = useSaveTrack()
 
-  console.log(currentLocation)
+  // console.log(currentLocation)
 
   const initItinerary = () => {
     const prom = new Promise((resolve, reject) => {
@@ -84,12 +86,12 @@ const TrackForm = () => {
   }         
 
 
-  const insertDetails = (id) => {
+  const insertDetails = (id, itinerary_id, latitude, longitude, altitude, sunced, date) => {
       const prom = new Promise((resolve, reject) => {
           db.transaction(async(tx) => {
             await tx.executeSql(
               'INSERT INTO itinerary_details(id, itinerary_id, latitude, longitude, altitude, synced, date) VALUES(?,?,?,?,?,?,?);', 
-              [2, 3, currentLocation.coords.latitude, currentLocation.coords.longitude, currentLocation.coords.altitude, 'NO', currentLocation.timestamp],
+              [2, 3, currentLocation.coords.latitude, currentLocation.coords.longitude, currentLocation.coords.altitude, 'NO', currentLocation.coords.timestamp],
               (_, result) => {
                 resolve(result);
               },
@@ -101,6 +103,8 @@ const TrackForm = () => {
         });
       return prom;
   }
+
+  let intervalID = null;
 
   const getData = () => {
     db.transaction((tx) => {
@@ -117,12 +121,23 @@ const TrackForm = () => {
     })
   }
 
+  const startData = () => {
+          if (intervalID !== null) return;
+          intervalID = setInterval(getData, 5000);
+        },
+        stopData = () => {
+          if (intervalID !== null) return;
+          clearInterval(intervalID);
+          intervalID = null;
+          console.log("STOPED");
+        }
+
     return (
 
       <KeyboardAvoidingView style={ styles.button } behavior="padding">
           { recording 
-            ? <Button title="Stop Journey" onPress={stopRecording} /> 
-            : <Button title="New Journey" onPress={() => {startRecording(); initItinerary(); insertItinerary(); initDetails(); insertDetails(); getData()}} /> 
+            ? <Button title="Stop Journey" onPress={() => {stopRecording(); stopData()}}/> 
+            : <Button title="New Journey" onPress={() => {startRecording(); initItinerary(); insertItinerary(); initDetails(); insertDetails(); startData()}} /> 
           }
         <Spacer>
           { 

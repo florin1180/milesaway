@@ -36,7 +36,7 @@ const TrackDetailScreen = ({ route, navigation }) => {
 
 
   const Coords = track.locations.map(loc => loc.coords)
- 
+
 
   return (
     <SafeAreaView style={styles.container}>
